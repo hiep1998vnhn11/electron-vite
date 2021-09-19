@@ -54,8 +54,8 @@ class Main {
             default:
               this.mainWindow.webContents.send('download-error', true)
               dialog.showErrorBox(
-                '下载出错',
-                '由于网络或其他未知原因导致客户端下载出错，请前往官网进行重新安装'
+                'Lỗi tải xuống',
+                'Máy khách bị lỗi download do mạng hoặc không rõ nguyên nhân khác, vui lòng vào trang web chính thức để cài đặt lại'
               )
               break
           }
@@ -71,8 +71,8 @@ class Main {
             case 'interrupted':
               this.mainWindow.webContents.send('download-error', true)
               dialog.showErrorBox(
-                '下载出错',
-                '由于网络或其他未知原因导致客户端下载出错，请前往官网进行重新安装'
+                'Lỗi tải xuống',
+                'Máy khách bị lỗi download do mạng hoặc không rõ nguyên nhân khác, vui lòng vào trang web chính thức để cài đặt lại'
               )
               break
             default:

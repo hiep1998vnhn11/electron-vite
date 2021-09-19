@@ -14,17 +14,19 @@ export default {
       server.on('error', (error) => {
         switch (error.code) {
           case 'EACCES':
-            reject('权限不足内置服务器启动失败，请使用管理员权限运行。')
+            reject(
+              'Không đủ quyền Máy chủ tích hợp không khởi động được. Vui lòng chạy với quyền của quản trị viên.'
+            )
             break
           case 'EADDRINUSE':
-            reject('内置服务器端口已被占用，请检查。')
+            reject('Cổng máy chủ tích hợp đã bị chiếm dụng, vui lòng kiểm tra.')
             break
           default:
             reject(error)
         }
       })
       server.on('listening', () => {
-        resolve('服务端运行中')
+        resolve('Máy chủ đang chạy')
       })
     })
   },
@@ -37,7 +39,7 @@ export default {
           resolve(1)
         })
       } else {
-        reject('服务端尚未开启')
+        reject('Máy chủ không mở')
       }
     })
   },

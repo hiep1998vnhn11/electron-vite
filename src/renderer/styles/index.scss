@@ -1,3 +1,4 @@
+@import './variables.scss';
 @import './transition.scss';
 
 html, body, #app { width: 100%; height: 100%; }
@@ -9,6 +10,12 @@ body {
   font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;
   margin: 0;
   padding: 0;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 html {
@@ -53,11 +60,14 @@ a:hover {
   }
 }
 
-//main-container全局样式
 .app-main {
   min-height: 100%
 }
 
 .app-container {
-  padding: 20px;
+  padding-top: $status-bar-height + $app-padding + $tab-bar-height;
+  padding-bottom: $navigation-bar-height;
+  padding-right: $app-padding;
+  padding-left: $app-padding + $toolbar-left-width;
+  background: rgba(239, 239, 239, 1);
 }

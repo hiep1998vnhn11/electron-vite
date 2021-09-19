@@ -4,7 +4,7 @@ const commonjs = require('@rollup/plugin-commonjs')
 const esbuild = require('rollup-plugin-esbuild')
 const alias = require('@rollup/plugin-alias')
 const json = require('@rollup/plugin-json')
-const obfuscator = require('rollup-plugin-obfuscator');
+const obfuscator = require('rollup-plugin-obfuscator')
 
 module.exports = (env = 'production') => {
   return {
@@ -31,7 +31,7 @@ module.exports = (env = 'production') => {
         target: 'es2017', // default, or 'es20XX', 'esnext'
         // Like @rollup/plugin-replace
         define: {
-          __VERSION__: '"x.y.z"'
+          __VERSION__: '"x.y.z"',
         },
         // Add extra loaders
         loaders: {
@@ -39,16 +39,16 @@ module.exports = (env = 'production') => {
           // require @rollup/plugin-commonjs
           '.json': 'json',
           // Enable JSX in .js files too
-          '.js': 'jsx'
+          '.js': 'jsx',
         },
       }),
       obfuscator({}),
       alias({
         entries: [
-          { find: '@main', replacement: path.join(__dirname, '../src/main'), },
-          { find: '@config', replacement: path.join(__dirname, '..', 'config') }
-        ]
-      })
+          { find: '@main', replacement: path.join(__dirname, '../src/main') },
+          { find: '@config', replacement: path.join(__dirname, '..', 'config') },
+        ],
+      }),
     ],
     external: [
       'crypto',
@@ -66,9 +66,8 @@ module.exports = (env = 'production') => {
       'ffi-napi',
       'ref-napi',
       'ref-struct-napi',
-      // 修正部分人会导致丢失依赖的问题，如果updater工作不正常请取消下面的注释，并自行安装semver
       'semver',
-      'glob'
+      'glob',
     ],
   }
 }

@@ -17,10 +17,10 @@ class MainInit {
     this.shartURL = loadingURL
     if (process.env.NODE_ENV === 'development') {
       menuconfig.push({
-        label: '开发者设置',
+        label: 'Cài đặt nhà phát triển',
         submenu: [
           {
-            label: '切换到开发者模式',
+            label: 'Chuyển sang chế độ nhà phát triển',
             accelerator: 'CmdOrCtrl+I',
             role: 'toggledevtools',
           },
@@ -33,7 +33,8 @@ class MainInit {
       height: 800,
       useContentSize: true,
       width: 1700,
-      minWidth: 1366,
+      minWidth: 1024,
+      minHeight: 400,
       show: false,
       frame: config.IsUseSysTitle,
       titleBarStyle: 'hidden',
@@ -42,7 +43,6 @@ class MainInit {
         nodeIntegration: true,
         webSecurity: false,
         devTools: process.env.NODE_ENV === 'development',
-        // devTools: true,
         scrollBounce: process.platform === 'darwin',
       },
     })
@@ -56,7 +56,6 @@ class MainInit {
       this.mainWindow.show()
       if (config.UseStartupChart) this.loadWindow.destroy()
     })
-    // this.mainWindow.webContents.openDevTools({ mode: 'undocked', activate: true })
     if (process.env.NODE_ENV === 'development') {
       this.mainWindow.webContents.openDevTools({ mode: 'undocked', activate: true })
     }
@@ -68,19 +67,21 @@ class MainInit {
       }
       switch (details.reason) {
         case 'crashed':
-          message.title = '警告'
-          message.buttons = ['确定', '退出']
-          message.message = '图形化进程崩溃，是否进行软重启操作？'
+          message.title = 'Cảnh báo'
+          message.buttons = ['Đảm bảo', 'Từ bỏ']
+          message.message =
+            'Quá trình đồ họa bị treo, bạn có thực hiện thao tác khởi động lại mềm không?'
           break
         case 'killed':
-          message.title = '警告'
-          message.buttons = ['确定', '退出']
-          message.message = '由于未知原因导致图形化进程被终止，是否进行软重启操作？'
+          message.title = 'Cảnh báo'
+          message.buttons = ['Đảm bảo', 'Từ bỏ']
+          message.message =
+            'Quá trình đồ họa bị chấm dứt do không rõ lý do. Bạn có muốn thực hiện thao tác khởi động lại mềm không?'
           break
         case 'oom':
-          message.title = '警告'
-          message.buttons = ['确定', '退出']
-          message.message = '内存不足，是否软重启释放内存？'
+          message.title = 'Cảnh báo'
+          message.buttons = ['Đảm bảo', 'Từ bỏ']
+          message.message = 'Bộ nhớ không đủ, khởi động lại mềm có giải phóng bộ nhớ không?'
           break
 
         default:
@@ -103,9 +104,9 @@ class MainInit {
       dialog
         .showMessageBox(this.mainWindow, {
           type: 'warning',
-          title: '警告',
-          buttons: ['重载', '退出'],
-          message: '图形化进程失去响应，是否等待其恢复？',
+          title: 'Cảnh báo',
+          buttons: ['Đảm bảo', 'Từ bỏ'],
+          message: 'Quá trình đồ họa không phản hồi, bạn có đợi nó khôi phục không?',
           noLink: true,
         })
         .then((res) => {
@@ -124,14 +125,16 @@ class MainInit {
         case 'GPU':
           switch (details.reason) {
             case 'crashed':
-              message.title = '警告'
-              message.buttons = ['确定', '退出']
-              message.message = '硬件加速进程已崩溃，是否关闭硬件加速并重启？'
+              message.title = 'Đảm bảo'
+              message.buttons = ['确定', 'Từ bỏ']
+              message.message =
+                'Quá trình tăng tốc phần cứng đã bị lỗi. Bạn có muốn tắt tăng tốc phần cứng và khởi động lại không?'
               break
             case 'killed':
-              message.title = '警告'
-              message.buttons = ['确定', '退出']
-              message.message = '硬件加速进程被意外终止，是否关闭硬件加速并重启？'
+              message.title = 'Đảm bảo'
+              message.buttons = ['确定', 'Từ bỏ']
+              message.message =
+                'Quá trình tăng tốc phần cứng đã bị kết thúc đột ngột. Bạn có muốn tắt tính năng tăng tốc phần cứng và khởi động lại nó không?'
               break
             default:
               break

@@ -1,6 +1,5 @@
 <template>
   <div>
-    <title-bar></title-bar>
     <div id="wrapper">
       <img id="logo" :src="logo" alt="electron-vue" />
       <main>
@@ -16,7 +15,7 @@
             <div class="title alt">
               {{ $t('buttonTips') }}
             </div>
-            <el-button type="primary" round @click="open()">
+            <el-button type="primary" round @click="goTest">
               {{ $t('buttons.console') }}
             </el-button>
             <el-button type="primary" round @click="CheckUpdate('one')">
@@ -50,6 +49,8 @@
             <el-button type="primary" round @click="changeLanguage">{{
               $t('buttons.changeLanguage')
             }}</el-button>
+
+            <el-button type="primary" round @click="copyClipboard"> Copy clipboard </el-button>
           </div>
           <div class="doc">
             <el-pagination
@@ -66,7 +67,7 @@
         </div>
       </main>
       <el-dialog
-        title="进度"
+        title="123"
         v-model="dialogVisible"
         :before-close="handleClose"
         center
@@ -94,13 +95,15 @@
   import { onUnmounted, ref, defineComponent } from 'vue'
   import { useStore } from 'vuex'
   import { i18n, setLanguage } from '@renderer/i18n'
-  const { ipcRenderer } = require('electron')
+  import useGo from '@renderer/hooks/useGo'
+  const { ipcRenderer, clipboard } = require('electron')
   export default defineComponent({
     name: 'landing-page',
     components: {
       SystemInformation,
     },
     setup() {
+      const go = useGo()
       const percentage = ref(0)
       const colors = ref([
         { color: '#f56c6c', percentage: 20 },
@@ -210,6 +213,11 @@
           })
         }
       })
+
+      ipcRenderer.on('start-download', (event, age) => {
+        console.log(event, age)
+      })
+
       ipcRenderer.on('download-done', (event, age) => {
         filePath.value = age.filePath
         progressStatus.value = 'success'
@@ -276,6 +284,12 @@
         ipcRenderer.removeAllListeners('download-error')
       })
 
+      const goTest = () => go({ name: 'Test' })
+
+      const copyClipboard = () => {
+        clipboard.writeText('Copy String', 'selection')
+      }
+
       return {
         StartServer,
         logo,
@@ -297,6 +311,8 @@
         handleCurrentChange,
         changeLanguage,
         updateStatus,
+        goTest,
+        copyClipboard,
       }
     },
   })

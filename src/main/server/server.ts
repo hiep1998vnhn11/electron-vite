@@ -2,12 +2,12 @@ import express from 'express'
 const app = express()
 
 app.get('/message', (req, res) => {
-  res.send('这是来自node服务端的信息')
+  res.send('Thông tin máy chủ')
 })
 
 app.post('/message', (req, res) => {
   if (req) {
-    res.send(req + '--来自node')
+    res.send(req + '--Node')
   }
 })
 

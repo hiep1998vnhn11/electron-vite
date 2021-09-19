@@ -10,8 +10,8 @@ function onAppReady() {
   DisableButton.Disablef12()
   if (process.env.NODE_ENV === 'development') {
     electronDevtoolsInstaller(VUEJS3_DEVTOOLS)
-      .then((name) => console.log(`已安装: ${name}`))
-      .catch((err) => console.log('无法安装 `vue-devtools`: \n', err))
+      .then((name) => console.log(`${name} Đã được cài đặt`))
+      .catch((err) => console.log('KHông thể cài đặt `vue-devtools`: \n', err))
   }
 }
 
@@ -28,7 +28,7 @@ app.on('browser-window-created', () => {
 if (process.defaultApp) {
   if (process.argv.length >= 2) {
     app.removeAsDefaultProtocolClient('electron-vue-template')
-    console.log('由于框架特殊性开发环境下无法使用')
+    console.log('Không thể được sử dụng trong môi trường phát triển do tính đặc biệt của khuôn khổ')
   }
 } else {
   app.setAsDefaultProtocolClient('electron-vue-template')

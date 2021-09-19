@@ -4,25 +4,25 @@ import packageInfo from '../../../package.json'
 
 const menu = [
   {
-    label: '设置',
+    label: 'Cài đặt',
     submenu: [
       {
-        label: '快速重启',
+        label: 'Khởi động lại',
         accelerator: 'F5',
         role: 'reload',
       },
       {
-        label: '退出',
+        label: 'Đóng',
         accelerator: 'CmdOrCtrl+F4',
         role: 'close',
       },
     ],
   },
   {
-    label: '帮助',
+    label: 'Trợ giúp',
     submenu: [
       {
-        label: '关于',
+        label: 'Về sản phẩm',
         click: function () {
           info()
         },
@@ -32,14 +32,14 @@ const menu = [
 ]
 function info() {
   dialog.showMessageBox({
-    title: '关于',
+    title: 'Về sản phẩm',
     type: 'info',
-    message: 'electron-Vue框架',
-    detail: `版本信息：${packageInfo.version}\n引擎版本：${
+    message: 'Electron with vite vue3 typescript',
+    detail: `Phiên bản ${packageInfo.version}\n Version${
       process.versions.v8
-    }\n当前系统：${type()} ${arch()} ${release()}`,
+    }\m Release${type()} ${arch()} ${release()}`,
     noLink: true,
-    buttons: ['查看github', '确定'],
+    buttons: ['Github', 'Tải về'],
   })
 }
 

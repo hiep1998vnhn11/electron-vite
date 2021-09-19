@@ -1,7 +1,3 @@
-/**
- * power by biuuu
- */
-
 import { emptyDir, createWriteStream, readFile, copy } from 'fs-extra'
 import { join, resolve } from 'path'
 import { promisify } from 'util'
