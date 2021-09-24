@@ -4,16 +4,18 @@
       class="page-component__scroll el-scrollbar__wrap app-container"
       :class="{ dark: darkMode }"
     >
-      <StatusBar />
-      <TabBar />
-      <ToolbarLeft />
-      <SidebarLeft />
-      <router-view v-slot="{ Component }">
-        <transition name="fade" mode="out-in">
-          <component :is="Component" />
-        </transition>
-      </router-view>
-      <NavigationBar />
+      <perfect-scrollbar>
+        <StatusBar />
+        <TabBar />
+        <ToolbarLeft />
+        <SidebarLeft />
+        <router-view v-slot="{ Component }">
+          <transition name="fade" mode="out-in">
+            <component :is="Component" />
+          </transition>
+        </router-view>
+        <NavigationBar />
+      </perfect-scrollbar>
     </div>
   </ElConfigProvider>
 </template>
@@ -29,6 +31,7 @@
   import ToolbarLeft from '@renderer/layouts/ToolbarLeft.vue'
   import SidebarLeft from '@renderer/layouts/SidebarLeft.vue'
   import { useStore } from 'vuex'
+
   export default defineComponent({
     name: 'App',
     components: {
@@ -40,7 +43,6 @@
       TabBar,
     },
     setup() {
-      console.log(import.meta.env)
       const store = useStore()
       const i18nt = computed(() => i18n.global.messages[i18n.global.locale].el)
       const darkMode = computed(() => store.state.darkMode)

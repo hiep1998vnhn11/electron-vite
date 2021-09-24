@@ -20,7 +20,6 @@
   .navigation-bar {
     position: fixed;
     height: $navigation-bar-height;
-    background: red;
     bottom: 0;
     left: 0;
     width: 100%;

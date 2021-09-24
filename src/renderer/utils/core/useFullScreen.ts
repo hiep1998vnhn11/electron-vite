@@ -1,0 +1,126 @@
+import { ref } from 'vue'
+import { MaybeElementRef, unrefElement } from './unrefElement'
+import { useEventListener } from './useEventListener'
+import { ConfigurableDocument, defaultDocument } from '../_configure'
+
+type FunctionMap = [
+  'requestFullscreen',
+  'exitFullscreen',
+  'fullscreenElement',
+  'fullscreenEnabled',
+  'fullscreenchange',
+  'fullscreenerror'
+]
+
+const functionsMap: FunctionMap[] = [
+  [
+    'requestFullscreen',
+    'exitFullscreen',
+    'fullscreenElement',
+    'fullscreenEnabled',
+    'fullscreenchange',
+    'fullscreenerror',
+  ],
+  // New WebKit
+  [
+    'webkitRequestFullscreen',
+    'webkitExitFullscreen',
+    'webkitFullscreenElement',
+    'webkitFullscreenEnabled',
+    'webkitfullscreenchange',
+    'webkitfullscreenerror',
+  ],
+  // Old WebKit
+  [
+    'webkitRequestFullScreen',
+    'webkitCancelFullScreen',
+    'webkitCurrentFullScreenElement',
+    'webkitCancelFullScreen',
+    'webkitfullscreenchange',
+    'webkitfullscreenerror',
+  ],
+  [
+    'mozRequestFullScreen',
+    'mozCancelFullScreen',
+    'mozFullScreenElement',
+    'mozFullScreenEnabled',
+    'mozfullscreenchange',
+    'mozfullscreenerror',
+  ],
+  [
+    'msRequestFullscreen',
+    'msExitFullscreen',
+    'msFullscreenElement',
+    'msFullscreenEnabled',
+    'MSFullscreenChange',
+    'MSFullscreenError',
+  ],
+] as any
+
+export function useFullscreen(target?: MaybeElementRef, options: ConfigurableDocument = {}) {
+  const { document = defaultDocument } = options
+  const targetRef = target || document?.querySelector('html')
+  const isFullscreen = ref(false)
+  let isSupported = false
+
+  let map: FunctionMap = functionsMap[0]
+
+  if (!document) {
+    isSupported = false
+  } else {
+    for (const m of functionsMap) {
+      if (m[1] in document) {
+        map = m
+        isSupported = true
+        break
+      }
+    }
+  }
+
+  const [REQUEST, EXIT, ELEMENT, , EVENT] = map
+
+  async function exit() {
+    if (!isSupported) return
+    if (document?.[ELEMENT]) await document[EXIT]()
+
+    isFullscreen.value = false
+  }
+
+  async function enter() {
+    if (!isSupported) return
+
+    await exit()
+
+    const target = unrefElement(targetRef)
+    if (target) {
+      await target[REQUEST]()
+      isFullscreen.value = true
+    }
+  }
+
+  async function toggle() {
+    if (isFullscreen.value) await exit()
+    else await enter()
+  }
+
+  if (document) {
+    useEventListener(
+      document,
+      EVENT,
+      () => {
+        isFullscreen.value = !!document?.[ELEMENT]
+      },
+      false
+    )
+  }
+
+  return {
+    isSupported,
+    isFullscreen,
+    enter,
+    exit,
+    toggle,
+  }
+}
+
+export type UseFullscreenReturn = ReturnType<typeof useFullscreen>

@@ -15,7 +15,6 @@ body {
 * {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
 }
 
 html {
@@ -65,9 +64,14 @@ a:hover {
 }
 
 .app-container {
-  padding-top: $status-bar-height + $app-padding + $tab-bar-height;
+  padding-top: $status-bar-height + $tab-bar-height;
   padding-bottom: $navigation-bar-height;
-  padding-right: $app-padding;
-  padding-left: $app-padding + $toolbar-left-width;
+  padding-left: $toolbar-left-width;
   background: rgba(239, 239, 239, 1);
+
+  .ps {
+    width: 100%;
+    height: 100%;
+    padding: 5px;
+  }
 }

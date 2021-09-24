@@ -1,9 +1,5 @@
-import type { GlobEnvConfig } from '/#/config'
-
-import { warn } from '/@/utils/log'
+import { warn } from './log'
 import pkg from '../../../package.json'
-import { getConfigFileName } from '../../build/getConfigFileName'
-
 export function getCommonStoragePrefix() {
   const { VITE_GLOB_APP_SHORT_NAME } = getAppEnvConfig()
   return `${VITE_GLOB_APP_SHORT_NAME}__${getEnv()}`.toUpperCase()
@@ -16,6 +12,7 @@ export function getStorageShortName() {
 
 export function getAppEnvConfig() {
   const ENV = import.meta.env
+
   const {
     VITE_GLOB_APP_TITLE,
     VITE_GLOB_API_URL,

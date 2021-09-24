@@ -17,11 +17,14 @@
     "postinstall": "electron-builder install-app-deps"
   },
   "dependencies": {
+    "@vueuse/core": "^6.4.1",
     "axios": "^0.21.4",
     "electron-log": "^4.4.1",
     "electron-updater": "^4.3.9",
     "express": "^4.17.1",
-    "glob": "^7.1.7"
+    "glob": "^7.1.7",
+    "vue-perfect-scrollbar": "^0.2.1",
+    "vue3-perfect-scrollbar": "^1.5.5"
   },
   "devDependencies": {
     "@rollup/plugin-alias": "^3.1.5",
