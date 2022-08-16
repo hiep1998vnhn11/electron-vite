@@ -1,0 +1,12 @@
+@keyframes skeleton {
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.skeleton-box {
+  animation: skeleton 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  div {
+    background-color: rgb(229 231 235);
+  }
+}

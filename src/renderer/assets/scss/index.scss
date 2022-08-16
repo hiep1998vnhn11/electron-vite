@@ -1,0 +1,26 @@
+@import 'components/input';
+@import 'components/button';
+@import 'components/skeleton';
+
+@import 'tailwind';
+
+// * {
+//   box-sizing: border-box;
+// }
+button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.dialog-open {
+  overflow: hidden;
+}
+
+.divider {
+  border-top: 1px solid #e1e4e8;
+  margin: 1rem 0;
+}
+.flex {
+  display: flex;
+}

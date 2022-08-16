@@ -37,7 +37,7 @@ class MainInit {
       minHeight: 400,
       show: false,
       frame: config.IsUseSysTitle,
-      titleBarStyle: 'hidden',
+      // titleBarStyle: 'hidden',
       webPreferences: {
         contextIsolation: false,
         nodeIntegration: true,

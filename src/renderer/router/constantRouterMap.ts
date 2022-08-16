@@ -1,21 +1,67 @@
 import { RouteRecordRaw } from 'vue-router'
 
+const defaultLayout = () => import('@renderer/layouts/default.vue')
+const signinLayout = () => import('@renderer/layouts/signin.vue')
+
 const routes: Array<RouteRecordRaw> = [
-  { path: '/:pathMatch(.*)*', component: () => import('@renderer/views/404.vue') },
-  { path: '/', name: 'Landing', component: () => import('@renderer/components/LandingPage.vue') },
-  { path: '/test', name: 'Test', component: () => import('@renderer/pages/Test.vue') },
-  { path: '/download', name: 'Download', component: () => import('@renderer/pages/Download.vue') },
-  { path: '/edit', name: 'Edit', component: () => import('@renderer/pages/Edit.vue') },
-  { path: '/message', name: 'Message', component: () => import('@renderer/pages/Message.vue') },
   {
-    path: '/notifications',
-    name: 'Notifications',
-    component: () => import('@renderer/pages/Notifications.vue'),
+    path: '/:pathMatch(.*)*',
+    component: () => import('@renderer/views/404.vue'),
   },
-  { path: '/search', name: 'Search', component: () => import('@renderer/pages/Search.vue') },
-  { path: '/setting', name: 'Setting', component: () => import('@renderer/pages/Setting.vue') },
-  { path: '/share', name: 'Share', component: () => import('@renderer/pages/Share.vue') },
-  { path: '/user', name: 'User', component: () => import('@renderer/pages/User.vue') },
+  {
+    path: '/',
+    name: 'DefaultLayout',
+    component: defaultLayout,
+    meta: {
+      workspace: true,
+    },
+    children: [
+      {
+        path: '',
+        name: 'Index',
+        component: () => import('@renderer/pages/index.vue'),
+      },
+      {
+        path: 'profile',
+        name: 'profile',
+        component: () => import('@renderer/pages/profile.vue'),
+      },
+      {
+        path: 'channel/:id',
+        name: 'channel',
+        component: () => import('@renderer/pages/channel.vue'),
+      },
+      {
+        path: 'member/:id',
+        name: 'member',
+        component: () => import('@renderer/pages/member.vue'),
+      },
+    ],
+  },
+
+  {
+    path: '/signin',
+    name: 'SigninLayout',
+    component: signinLayout,
+    children: [
+      {
+        path: '',
+        name: 'signin',
+        component: () => import('@renderer/pages/signin.vue'),
+        meta: {
+          guest: true,
+        },
+      },
+      {
+        path: 'workspace',
+        name: 'workspace',
+        meta: {
+          auth: true,
+        },
+        component: () => import('@renderer/pages/workspace.vue'),
+      },
+    ],
+  },
 ]
 
 export default routes

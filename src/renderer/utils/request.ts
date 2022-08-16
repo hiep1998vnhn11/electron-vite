@@ -1,12 +1,20 @@
 import axios from 'axios'
-import { ElMessage } from 'element-plus'
+
+declare module 'axios' {
+  export interface AxiosResponse<T = any> extends Promise<T> {}
+}
+
 const serves = axios.create({
-  baseURL: process.env.BASE_API,
+  baseURL: import.meta.env.VITE_API_URL as string,
   timeout: 5000,
 })
 
 serves.interceptors.request.use(
   (config) => {
+    const token = localStorage.getItem('access_token')
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`
+    }
     return config
   },
   (err) => Promise.reject(err)
@@ -14,19 +22,12 @@ serves.interceptors.request.use(
 
 serves.interceptors.response.use(
   (res) => {
-    if (res.data.code === 50000) {
-      ElMessage.error(res.data.data)
-    }
-    return res
+    return res.data
   },
   (err) => {
     if (err.message.includes('timeout')) {
-      console.log('错误回调', err)
-      ElMessage.error('网络超时')
     }
     if (err.message.includes('Network Error')) {
-      console.log('错误回调', err)
-      ElMessage.error('服务端未启动，或网络连接错误')
     }
     return Promise.reject(err)
   }

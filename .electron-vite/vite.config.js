@@ -2,6 +2,9 @@ const { join } = require('path')
 const vuePlugin = require('@vitejs/plugin-vue')
 const { defineConfig } = require('vite')
 const userConfig = require('../config')
+const AutoImport = require('unplugin-auto-import/vite')
+const Icons = require('unplugin-icons/vite')
+
 const IsWeb = process.env.BUILD_TARGET === 'web'
 
 function resolve(dir) {
@@ -15,13 +18,16 @@ const config = defineConfig({
   root,
   define: {
     'process.env':
-      process.env.NODE_ENV === 'production' ? userConfig.build.env : userConfig.dev.env,
+      process.env.NODE_ENV === 'production'
+        ? userConfig.build.env
+        : userConfig.dev.env,
     'process.env.IS_WEB': IsWeb,
     'process.env.PORT': userConfig.dev.port,
   },
   resolve: {
     alias: {
       '@renderer': root,
+      '~': root,
     },
   },
   base: './',
@@ -38,9 +44,22 @@ const config = defineConfig({
         refSugar: true,
       },
     }),
+    AutoImport({
+      dts: '../../customTypes/auto-imports.d.ts',
+      dirs: ['./store', './hooks/*', './composable/*'],
+      imports: ['vue', 'vue-router', '@vueuse/head', '@vueuse/core'],
+    }),
+    Icons(),
   ],
   optimizeDeps: {},
   publicDir: resolve('static'),
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `@import '~/assets/scss/variables';`,
+      },
+    },
+  },
 })
 
 module.exports = config

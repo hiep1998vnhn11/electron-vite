@@ -56,6 +56,10 @@ export default {
     ipcMain.handle('hot-update', (event, arg) => {
       updater(mainWindow)
     })
+    ipcMain.on('set-ignore-mouse-events', (event, ignore: boolean, options?: any) => {
+      const win = BrowserWindow.fromWebContents(event.sender)
+      win.setIgnoreMouseEvents(ignore, options)
+    })
     ipcMain.handle('open-win', (event, arg) => {
       const ChildWin = new BrowserWindow({
         height: 595,
